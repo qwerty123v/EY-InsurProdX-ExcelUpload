@@ -153,9 +153,9 @@ const singlePremiumRecord = async (req, res, next) => {
     const variant_code = req.query.variant_code;
     const product_term = Number(req.query.product_term);
     const from_date_str = req.query.from;
-    const to_date_str = req.query.to;
+    // const to_date_str = req.query.to;
     const fromDate = new Date(from_date_str);
-    const toDate = new Date(to_date_str);
+    // const toDate = new Date(to_date_str);
     const regex = new RegExp(`${gender}`);
     const data = await uploadExcelModel.findOne({
       "x-axis.age": Number(age),
@@ -164,8 +164,8 @@ const singlePremiumRecord = async (req, res, next) => {
       gender: { $regex: regex },
       variant_code,
       product_term,
-      fromDate: { $gte: fromDate },
-      toDate: { $lte: toDate },
+      fromDate: { $lte: fromDate },
+      toDate: { $gte: fromDate },
     });
     res.json({ status: "success", data: data });
   } catch (error) {
