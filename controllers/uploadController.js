@@ -72,7 +72,7 @@ const uploadFileToTransform = async (req, res, next) => {
           fileUploadStatus.sheetName = sheetName;
           fileUploadStatus.status = "failure";
         }
-        resout.push({ message_criteria: fileUploadStatus });
+        resout.push({ criteria_fields:Object.keys(transformCriteriaData[0]), message_criteria: fileUploadStatus });
       } else {
         if (transformCriteriaData.length > 0) {
           rate_count++;
