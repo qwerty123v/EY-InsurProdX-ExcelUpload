@@ -46,6 +46,7 @@ const uploadFileToTransform = async (req, res, next) => {
     let transformCriteriaData = [];
     let rate_count = 0;
     let criteria_count = 0;
+    let criteria_row_count = 0;
     for (const sheetName of sheetNames) {
       const sheet = workbook.Sheets[sheetName];
       //file status
@@ -56,14 +57,14 @@ const uploadFileToTransform = async (req, res, next) => {
       //
       if (sheetName === "criteria_master") {
         // Get the first sheet
-        // criteria_count++;
+        criteria_count++;
         const worksheet = workbook.Sheets[sheetNames[0]];
         // Convert the sheet to JSON
         transformCriteriaData = XLSX.utils.sheet_to_json(worksheet);
         const savedData = await criteriaMasterModel.create(
           transformCriteriaData
         );
-        criteria_count=transformCriteriaData.length;
+        criteria_row_count=transformCriteriaData.length;
         if (savedData.length > 0) {
           fileUploadStatus.sheetName = sheetName;
           fileUploadStatus.status = "success";
@@ -120,7 +121,7 @@ const uploadFileToTransform = async (req, res, next) => {
         summeryDataId: randomNum,
         status: "success",
         totalRateUploaded: data,
-        criteria_count,
+        criteria_row_count,
         rate_count,
         timestamp: new Date(),
       });
