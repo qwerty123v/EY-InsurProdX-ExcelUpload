@@ -169,7 +169,11 @@ const singlePremiumRecord = async (req, res, next) => {
       product_term,
       summeryDataId:uploadId,
       fromDate: { $lte: fromDate },
-      toDate: { $gte: fromDate },
+      // toDate: { $gte: fromDate },
+      $or: [
+        { toDate: { $eq: "" } }, // Check if toDate is blank
+        { toDate: { $gte: fromDate } },
+      ]
     });
     res.json({ status: "success", data: data });
   } catch (error) {
