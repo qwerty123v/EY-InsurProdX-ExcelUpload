@@ -155,6 +155,7 @@ const singlePremiumRecord = async (req, res, next) => {
     const variant_code = req.query.variant_code;
     const product_term = Number(req.query.product_term);
     const from_date_str = req.query.from;
+    const uploadId = req.query.uploadId;
     // const to_date_str = req.query.to;
     const fromDate = new Date(from_date_str);
     // const toDate = new Date(to_date_str);
@@ -166,6 +167,7 @@ const singlePremiumRecord = async (req, res, next) => {
       gender: { $regex: regex },
       variant_code,
       product_term,
+      summeryDataId:uploadId,
       fromDate: { $lte: fromDate },
       toDate: { $gte: fromDate },
     });
