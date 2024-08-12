@@ -56,13 +56,14 @@ const uploadFileToTransform = async (req, res, next) => {
       //
       if (sheetName === "criteria_master") {
         // Get the first sheet
-        criteria_count++;
+        // criteria_count++;
         const worksheet = workbook.Sheets[sheetNames[0]];
         // Convert the sheet to JSON
         transformCriteriaData = XLSX.utils.sheet_to_json(worksheet);
         const savedData = await criteriaMasterModel.create(
           transformCriteriaData
         );
+        criteria_count=transformCriteriaData.length;
         if (savedData.length > 0) {
           fileUploadStatus.sheetName = sheetName;
           fileUploadStatus.status = "success";
