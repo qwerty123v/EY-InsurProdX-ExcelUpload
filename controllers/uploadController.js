@@ -61,6 +61,9 @@ const uploadFileToTransform = async (req, res, next) => {
         const worksheet = workbook.Sheets[sheetNames[0]];
         // Convert the sheet to JSON
         transformCriteriaData = XLSX.utils.sheet_to_json(worksheet);
+        transformCriteriaData.map((val)=>{
+          return val.summeryDataId=randomNum;
+        });
         const savedData = await criteriaMasterModel.create(
           transformCriteriaData
         );
@@ -196,9 +199,30 @@ const getGridRecord = async (req, res, next) => {
   }
 };
 
+const get_criteria_fields = async (req, res, next) => {
+  try {
+    const summeryDataId=req.query.summeryDataId;
+    let fields="";
+    const data = await criteriaMasterModel.findOne({summeryDataId});
+    console.log(data)
+    if(data!==null){
+      fields=Object.keys(data);
+    }else{
+      fields="field's not available";
+    }
+    res.json({ status: "success", data: fields });
+  } catch (error) {
+    res.json({
+      error: "Error processing while reading collection",
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   uploadFileToTransform,
   getAllTransformRecord,
   singlePremiumRecord,
   getGridRecord,
+  get_criteria_fields
 };

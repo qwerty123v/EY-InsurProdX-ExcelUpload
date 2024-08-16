@@ -22,5 +22,7 @@ router.post('/upload_rate_excel',upload.single('file'), fileTransform.uploadFile
 router.get('/get_all_transform_record', fileTransform.getAllTransformRecord);
 router.get('/single_premium_record', fileTransform.singlePremiumRecord);
 router.get('/get_grid_record', fileTransform.getGridRecord);
+router.get('/get_criteria_fields', fileTransform.get_criteria_fields);
+
 
 module.exports = router;
