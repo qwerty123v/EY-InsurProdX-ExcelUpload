@@ -206,6 +206,9 @@ const get_criteria_fields = async (req, res, next) => {
     const data = await criteriaMasterModel.findOne({summeryDataId});
     console.log(data)
     if(data!==null){
+      if(data && data.summeryDataId){
+        delete data.summeryDataId;
+      }
       fields=Object.keys(data);
     }else{
       fields="field's not available";
