@@ -7,7 +7,7 @@ const UploadFile = () => {
     const apiUrl = window?.configs?.apiUrl ? window.configs.apiUrl : "/";
     const props = {
         name: 'file',
-        action: apiUrl,
+        action: `${apiUrl}/upload_rate_excel`,
         // action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
         // headers: {
         //   authorization: 'authorization-text',
