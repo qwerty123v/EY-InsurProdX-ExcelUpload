@@ -1,6 +1,17 @@
 import { ChangeEvent, useState } from 'react';
 import { Button, message, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+// import oauth from 'axios-oauth-client'
+// import axios from 'axios';
+
+// consumerKey, consumerSecret and tokenUrl represent variables to which respective environment variables were read
+// const getClientCredentials = oauth.clientCredentials(
+//   axios.create(),
+//   window.configs.token,
+//   <consumerKey>,
+//   <consumerSecret>
+// );
+// const auth = await getClientCredentials();
 
 const UploadFile = () => {
     // const apiUrl = '/choreo-apis/eydemo/excel-upload-framework/v1';  
