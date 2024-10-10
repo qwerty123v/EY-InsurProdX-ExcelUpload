@@ -17,80 +17,237 @@ paths:
                   format: binary
       responses:
         '200':
-          description: File uploaded successfully
+          description: Successful upload
           content:
             application/json:
               schema:
-                oneOf:
-                  - type: array
+                type: object
+                properties:
+                  status:
+                    type: string
+                  msg:
+                    type: array
                     items:
                       type: object
-                  - type: string
-                  - type: object
+                      properties:
+                        criteria_fields:
+                          type: array
+                          items:
+                            type: string
+                        message_criteria:
+                          type: object
+                          properties:
+                            sheetName:
+                              type: string
+                            status:
+                              type: string
+                        message_rate:
+                          type: object
+                          properties:
+                            sheetName:
+                              type: string
+                            status:
+                              type: string
+                        summeryData:
+                          type: object
+                          properties:
+                            sheetCount:
+                              type: integer
+                            summeryDataId:
+                              type: string
+                            status:
+                              type: string
+                            totalRateUploaded:
+                              type: integer
+                            criteria_row_count:
+                              type: integer
+                            rate_count:
+                              type: integer
+                            timestamp:
+                              type: string
+                              format: date-time
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
   /get_all_transform_record:
     get:
       summary: Get all transform records
+      parameters:
+        - in: query
+          name: uploadId
+          schema:
+            type: string
+          required: true
+          description: The ID of the upload
       responses:
         '200':
-          description: A list of all transform records
+          description: Successful retrieval
           content:
             application/json:
               schema:
-                oneOf:
-                  - type: array
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: array
                     items:
                       type: object
-                  - type: string
-                  - type: object
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
   /single_premium_record:
     get:
       summary: Get single premium record
+      parameters:
+        - in: query
+          name: age
+          schema:
+            type: integer
+          required: true
+          description: Age of the individual
+        - in: query
+          name: ppt
+          schema:
+            type: integer
+          required: true
+          description: PPT value
+        - in: query
+          name: tobacco
+          schema:
+            type: string
+          required: true
+          description: Tobacco usage
+        - in: query
+          name: gender
+          schema:
+            type: string
+          required: true
+          description: Gender of the individual
+        - in: query
+          name: variant_code
+          schema:
+            type: string
+          required: true
+          description: Variant code
+        - in: query
+          name: product_term
+          schema:
+            type: integer
+          required: true
+          description: Product term
+        - in: query
+          name: from
+          schema:
+            type: string
+            format: date
+          required: true
+          description: From date
+        - in: query
+          name: uploadId
+          schema:
+            type: string
+          required: true
+          description: The ID of the upload
       responses:
         '200':
-          description: Single premium record
+          description: Successful retrieval
           content:
             application/json:
               schema:
-                oneOf:
-                  - type: array
-                    items:
-                      type: object
-                  - type: string
-                  - type: object
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: object
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
   /get_grid_record:
     get:
-      summary: Get grid record
+      summary: Get grid records
       responses:
         '200':
-          description: Grid record
+          description: Successful retrieval
           content:
             application/json:
               schema:
-                oneOf:
-                  - type: array
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: array
                     items:
                       type: object
-                  - type: string
-                  - type: object
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
   /get_criteria_fields:
     get:
       summary: Get criteria fields
+      parameters:
+        - in: query
+          name: summeryDataId
+          schema:
+            type: string
+          required: true
+          description: The ID of the summary data
       responses:
         '200':
-          description: Criteria fields
+          description: Successful retrieval
           content:
             application/json:
               schema:
-                oneOf:
-                  - type: array
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: array
                     items:
-                      type: object
-                  - type: string
-                  - type: object
-
-  # /get_criteria_fields:
-  #   get:
-  #     summary: Get criteria fields
-  #     responses:
-  #       '200':
-  #         description: Criteria fields
+                      type: string
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
