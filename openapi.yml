@@ -251,3 +251,30 @@ paths:
                     type: string
                   message:
                     type: string
+  /for_only_test:
+    get:
+      summary: For only test
+      description: The ID of the summary data
+      responses:
+        '200':
+          description: Successful retrieval
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: string
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string

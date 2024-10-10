@@ -222,10 +222,24 @@ const get_criteria_fields = async (req, res, next) => {
   }
 };
 
+
+
+const forOnlyTest = async (req, res, next) => {
+  try {
+    res.json({ status: "success", data: "Hi, I am testing node app" });
+  } catch (error) {
+    res.json({
+      error: "Error processing while reading collection",
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   uploadFileToTransform,
   getAllTransformRecord,
   singlePremiumRecord,
   getGridRecord,
-  get_criteria_fields
+  get_criteria_fields,
+  forOnlyTest
 };

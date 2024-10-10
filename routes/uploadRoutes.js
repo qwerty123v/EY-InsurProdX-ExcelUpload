@@ -23,6 +23,7 @@ router.get('/get_all_transform_record', fileTransform.getAllTransformRecord);
 router.get('/single_premium_record', fileTransform.singlePremiumRecord);
 router.get('/get_grid_record', fileTransform.getGridRecord);
 router.get('/get_criteria_fields', fileTransform.get_criteria_fields);
+router.get('/for_only_test', fileTransform.forOnlyTest);
 
 
 module.exports = router;
