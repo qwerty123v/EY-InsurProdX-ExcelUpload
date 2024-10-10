@@ -1,0 +1,96 @@
+openapi: 3.0.0
+info:
+  title: File Transformation API
+  version: 1.0.0
+paths:
+  /upload_rate_excel:
+    post:
+      summary: Upload rate excel file
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: File uploaded successfully
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: array
+                    items:
+                      type: object
+                  - type: string
+                  - type: object
+  /get_all_transform_record:
+    get:
+      summary: Get all transform records
+      responses:
+        '200':
+          description: A list of all transform records
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: array
+                    items:
+                      type: object
+                  - type: string
+                  - type: object
+  /single_premium_record:
+    get:
+      summary: Get single premium record
+      responses:
+        '200':
+          description: Single premium record
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: array
+                    items:
+                      type: object
+                  - type: string
+                  - type: object
+  /get_grid_record:
+    get:
+      summary: Get grid record
+      responses:
+        '200':
+          description: Grid record
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: array
+                    items:
+                      type: object
+                  - type: string
+                  - type: object
+  /get_criteria_fields:
+    get:
+      summary: Get criteria fields
+      responses:
+        '200':
+          description: Criteria fields
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: array
+                    items:
+                      type: object
+                  - type: string
+                  - type: object
+
+  # /get_criteria_fields:
+  #   get:
+  #     summary: Get criteria fields
+  #     responses:
+  #       '200':
+  #         description: Criteria fields
