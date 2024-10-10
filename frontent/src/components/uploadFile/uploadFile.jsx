@@ -3,8 +3,8 @@ import { Button, message, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 
 const UploadFile = () => {
-    // const apiUrl = '/choreo-apis/eydemo/excel-upload-framework/v1';  
-    const apiUrl = window?.configs?.apiUrl ? window.configs.apiUrl : "/";
+    const apiUrl = '/choreo-apis/eydemo/excel-upload-framework/v1';  
+    // const apiUrl = window?.configs?.apiUrl ? window.configs.apiUrl : "/";
     const props = {
         name: 'file',
         action: `${apiUrl}/upload_rate_excel`,
