@@ -3,13 +3,14 @@ import { Button, message, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 
 const UploadFile = () => {
-
+    const apiUrl = '/choreo-apis/eydemo/excel-upload-framework/v1';  
     const props = {
         name: 'file',
-        action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
-        headers: {
-          authorization: 'authorization-text',
-        },
+        action: apiUrl,
+        // action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
+        // headers: {
+        //   authorization: 'authorization-text',
+        // },
         onChange(info) {
             if (info.file.status !== 'uploading') {
               console.log(info.file, info.fileList);
