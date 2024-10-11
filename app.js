@@ -7,7 +7,7 @@ const PORT = parseInt(process.env.PORT) || 8080;
 const route=require('./routes/uploadRoutes');
 const cors= require('cors');
 
-app.use(cors())
+app.use(cors());
 
 app.use('/excelupload',route);
 
