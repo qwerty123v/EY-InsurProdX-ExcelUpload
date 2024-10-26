@@ -278,3 +278,100 @@ paths:
                     type: string
                   message:
                     type: string
+/upload-rules:
+  post:
+    summary: Upload rules excel file
+    requestBody:
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              file:
+                type: string
+                format: binary
+    responses:
+      '200':
+        description: Successful upload
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+      '400':
+        description: Bad request
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+/get-rule-data:
+  get:
+    summary: Get Rule fields
+    parameters:
+      - in: query
+        name: Age
+        schema:
+          type: number
+        description: Age of the individual
+      - in: query
+        name: Height
+        schema:
+          type: number
+        description: Height of the individual
+      - in: query
+        name: Country
+        schema:
+          type: string
+        description: Country of the individual
+      - in: query
+        name: Gender
+        schema:
+          type: string
+        description: Gender of the individual
+      - in: query
+        name: Income
+        schema:
+          type: number
+        description: Income of the individual
+      - in: query
+        name: Status
+        schema:
+          type: string
+        description: Marital status of the individual
+      - in: query
+        name: Education
+        schema:
+          type: string
+        description: Education level of the individual
+      - in: query
+        name: collectionName
+        schema:
+          type: string
+        description: Name of the collection
+    responses:
+      '200':
+        description: Successful retrieval
+        content:
+          application/json:
+            schema:
+              type: object
+      '400':
+        description: Bad request
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                message:
+                  type: string
+
