@@ -18,7 +18,7 @@ const parseExcelFile = async (filePath) => {
     const finalSheetData = [];
 
     // Check if model already exists, otherwise create it
-    const DynamicModel = createDynamicModel(DbName)
+    const DynamicModel = mongoose.models[DbName] || mongoose.model(DbName, new mongoose.Schema({}, { strict: false }), DbName);
     for (let i = 2; i < sheet.length - 2; i++) {
       let sheetData = {
         ruleName: null,
@@ -59,7 +59,7 @@ const parseExcelFile = async (filePath) => {
               throw new Error(`Unknown operator: ${operator}`);
           }
         } else if (operator === "then") {
-          sheetData.then[header] = isNaN(value) ? value : Number(value);
+          sheetData.then[header] = parseValue(value);
         } else if (operator === "range") {
           const [min, max] = value.split("-").map(Number);
           sheetData.conditions.push({ [header]: { $gte: min, $lte: max } });
