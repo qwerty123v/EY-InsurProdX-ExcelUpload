@@ -4,6 +4,19 @@ const createDynamicModel = require("../models/DynamicModel");
 const handleDynamicOperators = require("../utils/handleDynamicOperators");
 const handleCountryParsing = require("../utils/handleCountryParsing");
 
+function parseValue(value) {
+  if (typeof value === 'string' && value.includes(',')) {
+      // Split by commas and trim each item
+      return value.split(',').map(item => {
+          item = item.trim();
+          // Convert to number if it's numeric
+          return isNaN(item) ? item : Number(item);
+      });
+  }
+  // Handle single values as before
+  return isNaN(value) ? value : Number(value);
+}
+
 // Function to parse the Excel file and generate the rule structure
 const parseExcelFile = async (filePath) => {
   try {
