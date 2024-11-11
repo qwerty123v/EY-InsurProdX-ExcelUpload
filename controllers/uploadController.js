@@ -14,10 +14,51 @@ const convertingExcelDateToJs = (excelDateSerial) => {
 
 //mapper
 
+// const product_termWise=async (rate, criteria, sheet_name, randomNum)=>{
+//   let finalOut=[];
+//   let criteria_record=criteria.filter((val)=>val.rate_id.toLowerCase() === sheet_name.toLowerCase());
+//   criteria_record.forEach(async (val)=>{
+//     let mapperCall=await myMapper(
+//       rate,
+//       val,
+//       sheet_name,
+//       randomNum
+//     );
+//     finalOut.push(mapperCall);
+//   })
+//   return finalOut;
+// }
+
+const productTerm = async (criteria, sheet_name) => {
+  let firstRecord = null; // Initialize to null to check for the first match
+  let shhetWiseCeiteria = criteria.filter(val => val.rate_id.toLowerCase() === sheet_name.toLowerCase());
+  
+  const productTermsSet = new Set(); // Use a Set to store unique product_terms
+
+  shhetWiseCeiteria.forEach((val) => {
+    if (!firstRecord) {
+      firstRecord = val; // Store the first matched record
+    }
+    productTermsSet.add(val.product_term); // Add product_term to the Set
+  });
+
+  const productTerms = Array.from(productTermsSet); // Convert Set back to an array
+
+  return {
+    product_term: productTerms,
+    data: firstRecord
+  };
+};
+
+
+
+
 const myMapper = async (rate, criteria, sheet_name, randomNum) => {
   if (criteria) {
+    const product_term= await productTerm(criteria, sheet_name);
     return rate.map((val) => {
-      const nCriteria = { ...criteria };
+      const nCriteria = { ...product_term.data};
+      nCriteria["product_term"]=product_term.product_term;
       nCriteria["x-axis"] = { age: val?.age };
       nCriteria["y-axis"] = { ppt: val?.ppt };
       nCriteria["premium"] = val?.price;
@@ -79,9 +120,9 @@ const uploadFileToTransform = async (req, res, next) => {
       } else {
         if (transformCriteriaData.length > 0) {
           rate_count++;
-          let criteria_master_read = transformCriteriaData.find(
-            (val) => val.rate_id.toLowerCase() === sheetName.toLowerCase()
-          );
+          // let criteria_master_read = transformCriteriaData.find(
+          //   (val) => val.rate_id.toLowerCase() === sheetName.toLowerCase()
+          // );
           const sheetData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
           let headers = sheetData.shift(); // Remove the first row with headers
           // Transform data into desired format
@@ -98,7 +139,7 @@ const uploadFileToTransform = async (req, res, next) => {
             .flat(); // Flatten array of arrays
           const transformRecords = await myMapper(
             jsonData,
-            criteria_master_read,
+            transformCriteriaData,
             sheetName,
             randomNum
           );
