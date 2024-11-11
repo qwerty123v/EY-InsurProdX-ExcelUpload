@@ -3,7 +3,7 @@ const XLSX = require("xlsx");
 const createDynamicModel = require("../models/DynamicModel");
 const handleDynamicOperators = require("../utils/handleDynamicOperators");
 const handleCountryParsing = require("../utils/handleCountryParsing");
-
+const mongoose = require('mongoose');
 function parseValue(value) {
   if (typeof value === 'string' && value.includes(',')) {
       // Split by commas and trim each item
