@@ -13,22 +13,6 @@ const convertingExcelDateToJs = (excelDateSerial) => {
 };
 
 //mapper
-
-// const product_termWise=async (rate, criteria, sheet_name, randomNum)=>{
-//   let finalOut=[];
-//   let criteria_record=criteria.filter((val)=>val.rate_id.toLowerCase() === sheet_name.toLowerCase());
-//   criteria_record.forEach(async (val)=>{
-//     let mapperCall=await myMapper(
-//       rate,
-//       val,
-//       sheet_name,
-//       randomNum
-//     );
-//     finalOut.push(mapperCall);
-//   })
-//   return finalOut;
-// }
-
 const productTerm = async (criteria, sheet_name) => {
   let firstRecord = null; // Initialize to null to check for the first match
   let shhetWiseCeiteria = criteria.filter(val => val.rate_id.toLowerCase() === sheet_name.toLowerCase());
