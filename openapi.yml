@@ -5,7 +5,7 @@ info:
 paths:
   /upload_rate_excel:
     post:
-      summary: Upload rate excel file
+      summary: Upload rate Excel file
       requestBody:
         content:
           multipart/form-data:
@@ -48,12 +48,12 @@ paths:
                               type: string
                             status:
                               type: string
-                        summeryData:
+                        summaryData:
                           type: object
                           properties:
                             sheetCount:
                               type: integer
-                            summeryDataId:
+                            summaryDataId:
                               type: string
                             status:
                               type: string
@@ -77,15 +77,16 @@ paths:
                     type: string
                   message:
                     type: string
+
   /get_all_transform_record:
     get:
       summary: Get all transform records
       parameters:
         - in: query
           name: uploadId
+          required: true
           schema:
             type: string
-          required: true
           description: The ID of the upload
       responses:
         '200':
@@ -112,58 +113,59 @@ paths:
                     type: string
                   message:
                     type: string
+
   /single_premium_record:
     get:
       summary: Get single premium record
       parameters:
         - in: query
           name: age
+          required: true
           schema:
             type: integer
-          required: true
           description: Age of the individual
         - in: query
           name: ppt
+          required: true
           schema:
             type: integer
-          required: true
           description: PPT value
         - in: query
           name: tobacco
+          required: true
           schema:
             type: string
-          required: true
           description: Tobacco usage
         - in: query
           name: gender
+          required: true
           schema:
             type: string
-          required: true
           description: Gender of the individual
         - in: query
           name: variant_code
+          required: true
           schema:
             type: string
-          required: true
           description: Variant code
         - in: query
           name: product_term
+          required: true
           schema:
             type: integer
-          required: true
           description: Product term
         - in: query
           name: from
+          required: true
           schema:
             type: string
             format: date
-          required: true
           description: From date
         - in: query
           name: uploadId
+          required: true
           schema:
             type: string
-          required: true
           description: The ID of the upload
       responses:
         '200':
@@ -188,6 +190,7 @@ paths:
                     type: string
                   message:
                     type: string
+
   /get_grid_record:
     get:
       summary: Get grid records
@@ -216,15 +219,16 @@ paths:
                     type: string
                   message:
                     type: string
+
   /get_criteria_fields:
     get:
       summary: Get criteria fields
       parameters:
         - in: query
-          name: summeryDataId
+          name: summaryDataId
+          required: true
           schema:
             type: string
-          required: true
           description: The ID of the summary data
       responses:
         '200':
@@ -251,6 +255,7 @@ paths:
                     type: string
                   message:
                     type: string
+
   /for_only_test:
     get:
       summary: For only test
@@ -267,6 +272,104 @@ paths:
                     type: string
                   data:
                     type: string
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+
+  /upload-rules:
+    post:
+      summary: Upload rules Excel file
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Successful upload
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                    message:
+                      type: string
+
+  /get-rule-data:
+    get:
+      summary: Get Rule fields
+      parameters:
+        - in: query
+          name: Age
+          schema:
+            type: number
+          description: Age of the individual
+        - in: query
+          name: Height
+          schema:
+            type: number
+          description: Height of the individual
+        - in: query
+          name: Country
+          schema:
+            type: string
+          description: Country of the individual
+        - in: query
+          name: Gender
+          schema:
+            type: string
+          description: Gender of the individual
+        - in: query
+          name: Income
+          schema:
+            type: number
+          description: Income of the individual
+        - in: query
+          name: Status
+          schema:
+            type: string
+          description: Marital status of the individual
+        - in: query
+          name: Education
+          schema:
+            type: string
+          description: Education level of the individual
+        - in: query
+          name: collectionName
+          schema:
+            type: string
+          description: Name of the collection
+      responses:
+        '200':
+          description: Successful retrieval
+          content:
+            application/json:
+              schema:
+                type: object
         '400':
           description: Bad request
           content:

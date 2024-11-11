@@ -2,6 +2,8 @@
 const express = require('express');
 const router = express.Router();
 const fileTransform= require("../controllers/uploadController")
+const ruleData= require("../controllers/ruleDataController")
+const { uploadFile } = require("../controllers/fileController");
 const multer = require('multer');
 const path = require('path');
 // Set up storage for uploaded files
@@ -25,5 +27,9 @@ router.get('/get_grid_record', fileTransform.getGridRecord);
 router.get('/get_criteria_fields', fileTransform.get_criteria_fields);
 router.get('/for_only_test', fileTransform.forOnlyTest);
 
-
+//for rule file upload
+router.post('/upload-rules', upload.single("file"), uploadFile);
+// new api for rule
+router.get('/get-rule-data', ruleData.getRuleData);
+//
 module.exports = router;
