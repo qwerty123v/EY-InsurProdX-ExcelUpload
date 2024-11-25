@@ -32,4 +32,7 @@ router.post('/upload-rules', upload.single("file"), uploadFile);
 // new api for rule
 router.get('/get-rule-data', ruleData.getRuleData);
 //
+// new router for sales Asset
+router.get('/sale-asset-premium-calulator', fileTransform.SalesAssetPremiumCalulator);
+//
 module.exports = router;

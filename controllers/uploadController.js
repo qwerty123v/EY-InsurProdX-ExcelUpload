@@ -260,11 +260,50 @@ const forOnlyTest = async (req, res, next) => {
   }
 };
 
+// new function
+
+const SalesAssetPremiumCalulator = async (req, res, next) => {
+  try {
+    const age = req.query.age;
+    const ppt = req.query.ppt;
+    const gender = req.query.gender;
+    const product_term = Number(req.query.product_term);
+    const tobacco = req.query.tobacco;
+    const sum_assured = Number(req.query.sum_assured);
+    const product_Name = req.query.product_Name;
+
+    const regex = new RegExp(`${gender}`);
+    const data = await uploadExcelModel.findOne({
+      "x-axis.age": Number(age),
+      "y-axis.ppt": Number(ppt),
+      gender: { $regex: regex },
+      product_term,
+      tobacco,
+      sum_assured,
+      product_Name
+    });
+    res.json({ status: "success", data: data });
+  } catch (error) {
+    res.status(500).json({
+      status: "Error",
+      message: "Error processing while reading collection",
+      error: error.message,
+    });
+  }
+};
+
+
+
+//
+
+
+
 module.exports = {
   uploadFileToTransform,
   getAllTransformRecord,
   singlePremiumRecord,
   getGridRecord,
   get_criteria_fields,
-  forOnlyTest
+  forOnlyTest,
+  SalesAssetPremiumCalulator
 };
