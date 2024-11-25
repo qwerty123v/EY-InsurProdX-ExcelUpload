@@ -381,3 +381,73 @@ paths:
                     type: string
                   message:
                     type: string
+
+  /sales-asset-premium-calulator:
+    get:
+      summary: Get single premium record for sales asset
+      parameters:
+        - in: query
+          name: age
+          required: true
+          schema:
+            type: integer
+          description: Age of the individual
+        - in: query
+          name: ppt
+          required: true
+          schema:
+            type: integer
+          description: PPT value
+        - in: query
+          name: gender
+          required: true
+          schema:
+            type: string
+          description: Gender of the individual
+        - in: query
+          name: product_term
+          required: true
+          schema:
+            type: integer
+          description: Product term
+        - in: query
+          name: tobacco
+          required: true
+          schema:
+            type: string
+          description: Tobacco usage
+        - in: query
+          name: sum_assured
+          required: true
+          schema:
+            type: integer
+          description: Sum assured amount
+        - in: query
+          name: product_Name
+          required: true
+          schema:
+            type: string
+          description: Product name
+      responses:
+        '200':
+          description: Successful retrieval
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: object
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
