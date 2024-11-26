@@ -269,7 +269,6 @@ const SalesAssetPremiumCalulator = async (req, res, next) => {
     const gender = req.query.gender;
     const product_term = Number(req.query.product_term);
     const tobacco = req.query.tobacco;
-    const sum_assured = Number(req.query.sum_assured);
     const product_Name = req.query.product_Name;
 
     const regex = new RegExp(`${gender}`);
@@ -279,7 +278,6 @@ const SalesAssetPremiumCalulator = async (req, res, next) => {
       gender: { $regex: regex },
       product_term,
       tobacco,
-      sum_assured,
       product_Name
     });
     res.json({ status: "success", data: data });
