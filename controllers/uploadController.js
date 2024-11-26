@@ -264,23 +264,38 @@ const forOnlyTest = async (req, res, next) => {
 
 const SalesAssetPremiumCalulator = async (req, res, next) => {
   try {
-    const age = req.query.age;
-    const ppt = req.query.ppt;
-    const gender = req.query.gender;
-    const product_term = Number(req.query.product_term);
-    const tobacco = req.query.tobacco;
-    const product_Name = req.query.product_Name;
+    // The array of objects passed in the request body
+    const requestData = req.body;  // assuming the request body contains the array of objects
+    const results = [];
+    // Loop through each object in the requestData array
+    for (let i = 0; i < requestData.length; i++) {
+      const dataObj = requestData[i];
+      const { age, ppt, gender, product_term, tobacco, product_Name } = dataObj;
+      // Create the regex for gender (case-insensitive matching)
+      const regex = new RegExp(`${gender}`, "i");
+      // Query the database for each set of parameters
+      const data = await uploadExcelModel.findOne({
+        "x-axis.age": Number(age),
+        "y-axis.ppt": Number(ppt),
+        gender: { $regex: regex },
+        product_term,
+        tobacco,
+        product_Name
+      });
+      // Push the result to the results array
+      results.push({
+        age,
+        ppt,
+        gender,
+        product_term,
+        tobacco,
+        product_Name,
+        data: data || null, // Add the found data, or null if no match found
+      });
+    }
 
-    const regex = new RegExp(`${gender}`);
-    const data = await uploadExcelModel.findOne({
-      "x-axis.age": Number(age),
-      "y-axis.ppt": Number(ppt),
-      gender: { $regex: regex },
-      product_term,
-      tobacco,
-      product_Name
-    });
-    res.json({ status: "success", data: data });
+    // Return all results as an array
+    res.json({ status: "success", results });
   } catch (error) {
     res.status(500).json({
       status: "Error",
@@ -289,12 +304,6 @@ const SalesAssetPremiumCalulator = async (req, res, next) => {
     });
   }
 };
-
-
-
-//
-
-
 
 module.exports = {
   uploadFileToTransform,
