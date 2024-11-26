@@ -15,8 +15,10 @@ const convertingExcelDateToJs = (excelDateSerial) => {
 //mapper
 const productTerm = async (criteria, sheet_name) => {
   let firstRecord = null; // Initialize to null to check for the first match
-  let shhetWiseCeiteria = criteria.filter(val => val.rate_id.toLowerCase() === sheet_name.toLowerCase());
-  
+  let shhetWiseCeiteria = criteria.filter(
+    (val) => val.rate_id.toLowerCase() === sheet_name.toLowerCase()
+  );
+
   const productTermsSet = new Set(); // Use a Set to store unique product_terms
 
   shhetWiseCeiteria.forEach((val) => {
@@ -30,19 +32,16 @@ const productTerm = async (criteria, sheet_name) => {
 
   return {
     product_term: productTerms,
-    data: firstRecord
+    data: firstRecord,
   };
 };
 
-
-
-
 const myMapper = async (rate, criteria, sheet_name, randomNum) => {
   if (criteria) {
-    const product_term= await productTerm(criteria, sheet_name);
+    const product_term = await productTerm(criteria, sheet_name);
     return rate.map((val) => {
-      const nCriteria = { ...product_term.data};
-      nCriteria["product_term"]=product_term.product_term;
+      const nCriteria = { ...product_term.data };
+      nCriteria["product_term"] = product_term.product_term;
       nCriteria["x-axis"] = { age: val?.age };
       nCriteria["y-axis"] = { ppt: val?.ppt };
       nCriteria["premium"] = val?.price;
@@ -86,13 +85,13 @@ const uploadFileToTransform = async (req, res, next) => {
         const worksheet = workbook.Sheets[sheetNames[0]];
         // Convert the sheet to JSON
         transformCriteriaData = XLSX.utils.sheet_to_json(worksheet);
-        transformCriteriaData.map((val)=>{
-          return val.summeryDataId=randomNum;
+        transformCriteriaData.map((val) => {
+          return (val.summeryDataId = randomNum);
         });
         const savedData = await criteriaMasterModel.create(
           transformCriteriaData
         );
-        criteria_row_count=transformCriteriaData.length;
+        criteria_row_count = transformCriteriaData.length;
         if (savedData.length > 0) {
           fileUploadStatus.sheetName = sheetName;
           fileUploadStatus.status = "success";
@@ -100,7 +99,10 @@ const uploadFileToTransform = async (req, res, next) => {
           fileUploadStatus.sheetName = sheetName;
           fileUploadStatus.status = "failure";
         }
-        resout.push({ criteria_fields:Object.keys(transformCriteriaData[0]), message_criteria: fileUploadStatus });
+        resout.push({
+          criteria_fields: Object.keys(transformCriteriaData[0]),
+          message_criteria: fileUploadStatus,
+        });
       } else {
         if (transformCriteriaData.length > 0) {
           rate_count++;
@@ -195,13 +197,13 @@ const singlePremiumRecord = async (req, res, next) => {
       gender: { $regex: regex },
       variant_code,
       product_term,
-      summeryDataId:uploadId,
+      summeryDataId: uploadId,
       fromDate: { $lte: fromDate },
       // toDate: { $gte: fromDate },
       $or: [
         { toDate: { $eq: "" } }, // Check if toDate is blank
         { toDate: { $gte: fromDate } },
-      ]
+      ],
     });
     res.json({ status: "success", data: data });
   } catch (error) {
@@ -226,17 +228,17 @@ const getGridRecord = async (req, res, next) => {
 
 const get_criteria_fields = async (req, res, next) => {
   try {
-    const summeryDataId=req.query.summeryDataId;
-    let fields="";
-    const data = await criteriaMasterModel.findOne({summeryDataId});
-    console.log(data)
-    if(data!==null){
-      if(data && data.summeryDataId){
+    const summeryDataId = req.query.summeryDataId;
+    let fields = "";
+    const data = await criteriaMasterModel.findOne({ summeryDataId });
+    console.log(data);
+    if (data !== null) {
+      if (data && data.summeryDataId) {
         delete data.summeryDataId;
       }
-      fields=Object.keys(data);
-    }else{
-      fields="field's not available";
+      fields = Object.keys(data);
+    } else {
+      fields = "field's not available";
     }
     res.json({ status: "success", data: fields });
   } catch (error) {
@@ -246,8 +248,6 @@ const get_criteria_fields = async (req, res, next) => {
     });
   }
 };
-
-
 
 const forOnlyTest = async (req, res, next) => {
   try {
@@ -265,7 +265,7 @@ const forOnlyTest = async (req, res, next) => {
 const SalesAssetPremiumCalulator = async (req, res, next) => {
   try {
     // The array of objects passed in the request body
-    const requestData = req.body;  // assuming the request body contains the array of objects
+    const requestData = req.body; // assuming the request body contains the array of objects
     const results = [];
     // Loop through each object in the requestData array
     for (let i = 0; i < requestData.length; i++) {
@@ -280,7 +280,7 @@ const SalesAssetPremiumCalulator = async (req, res, next) => {
         gender: { $regex: regex },
         product_term,
         tobacco,
-        product_Name
+        product_Name,
       });
       // Push the result to the results array
       results.push({
@@ -290,13 +290,14 @@ const SalesAssetPremiumCalulator = async (req, res, next) => {
         product_term,
         tobacco,
         product_Name,
-        data: data || null, // Add the found data, or null if no match found
+        premium: data?.premium || null, // Add the found data, or null if no match found
       });
     }
 
     // Return all results as an array
     res.json({ status: "success", results });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       status: "Error",
       message: "Error processing while reading collection",
@@ -312,5 +313,5 @@ module.exports = {
   getGridRecord,
   get_criteria_fields,
   forOnlyTest,
-  SalesAssetPremiumCalulator
+  SalesAssetPremiumCalulator,
 };
